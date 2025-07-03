@@ -25,6 +25,20 @@
 
         // 黃色點光源（只影響zhezhou附近）
         const yellowLight = new THREE.PointLight(0xffff00, 20, 30); 
+        scene.add(yellowLight); // 直接加到scene
+
+        // 光暈sprite（提前創建，後面直接用）
+        const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
+        const spriteMaterial = new THREE.SpriteMaterial({
+            map: spriteMap,
+            color: 0xffff66,
+            transparent: true,
+            opacity: 0.5,
+            depthWrite: false
+});
+const sprite = new THREE.Sprite(spriteMaterial);
+sprite.scale.set(16, 16, 1);
+scene.add(sprite); 
 
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
@@ -88,7 +102,7 @@
         meshes[idx] = mesh;
         loadedCount++;
 
-       if (part.isZhezhou) {
+      if (part.isZhezhou) {
     // 發光球體
     const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
     const bulbMaterial = new THREE.MeshBasicMaterial({
@@ -99,24 +113,6 @@
     const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
     bulb.position.set(0, 0, 0);
     mesh.add(bulb);
-
-    // 黃光
-    yellowLight.position.set(0, 0, 0);
-    mesh.add(yellowLight);
-
-    // 光暈
-    const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
-    const spriteMaterial = new THREE.SpriteMaterial({
-        map: spriteMap,
-        color: 0xffff66,
-        transparent: true,
-        opacity: 0.5,
-        depthWrite: false
-    });
-    const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(16, 16, 1);
-    sprite.position.set(0, 0, 0);
-    mesh.add(sprite);
                 }
             });
         });
@@ -134,6 +130,15 @@
                         mesh.scale.z += 0.01;
                     }
                 });
+            // 讓黃光和光暈跟隨 zhezhou
+        const zhezhouMesh = meshes.find((m, i) => parts[i].isZhezhou);
+        if (zhezhouMesh) {
+            zhezhouMesh.updateMatrixWorld();
+            const worldPos = new THREE.Vector3();
+            zhezhouMesh.getWorldPosition(worldPos);
+            yellowLight.position.copy(worldPos);
+            sprite.position.copy(worldPos);
+        }
             }
             renderer.render(scene, camera);
         }
