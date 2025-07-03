@@ -23,13 +23,9 @@
     const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambient);
 
-    // 弱白色平行光，模擬柔和外部照明
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
-    dirLight.position.set(30, 30, 30);
-    scene.add(dirLight);
-
-    const light = new THREE.PointLight(0xffff00, 2, 0); // 0xffff00 是黃色，2是強度，0表示無限距離
-    light.position.set(10, 10, 10); // 放在場景中心（和模型中心重合）
+    // 黃色點光源，放在場景中心
+    const light = new THREE.PointLight(0xffff00, 2, 0);
+    light.position.set(0, 0, 0);
     scene.add(light);
 
    // 紅色半透明紙張質感材質（漫反射，無高光）
@@ -51,20 +47,21 @@
       const center = new THREE.Vector3();
       geometry.boundingBox.getCenter(center);
       //lantern.localToWorld(center);
-
-      //直接在模型中心加一個黃色點光源
-      //const innerLight = new THREE.PointLight(0xffff99, 10, 500);
-      //innerLight.position.copy(center);
-      //scene.add(innerLight);
     });
   
     function animate() {
       requestAnimationFrame(animate);
       if (lantern) {
         lantern.rotation.y += 0.01;
+        // 進場動畫：Z軸移動和縮放
+        if (lantern.position.z > 0) lantern.position.z -= 0.05;
+        if (lantern.scale.x < 1) {
+          lantern.scale.x += 0.01;
+          lantern.scale.y += 0.01;
+          lantern.scale.z += 0.01;
+        }
       }
       renderer.render(scene, camera);
-    }
   
     animate();
   </script>
