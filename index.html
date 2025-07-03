@@ -19,7 +19,43 @@
   </p>
   <video src="video/screengrab.mp4" controls width="600"></video>
   <script>
+// 初始化場景、攝像機、渲染器
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.getElementById('container').appendChild(renderer.domElement);
 
+// 加載 STL 模型
+const loader = new THREE.STLLoader();
+loader.load('model/FinalProject-zhezhou.stl', function (geometry) {
+    // 加載 ShaderFrog 導出的 shader
+    var runtime = new ShaderFrogRuntime();
+    runtime.load(['shader/Shader_zhezhou.json'], function (shaders) {
+        var material = runtime.get(shaders[0].name);
+        material.transparent = true; // 啟用透明
+
+        // 設置 shader 的 uniforms（根據你的 shader 實際需要設置）
+        material.uniforms.color.value = new THREE.Color(1.0, 0.1, 0.1); // 紅色
+        material.uniforms.glowColor.value = new THREE.Color(1.0, 0.8, 0.3); // 黃色
+        material.uniforms.glowStrength.value = 0.5;
+        material.uniforms.bulbPos.value = new THREE.Vector3(0, 0, 0); // 根據你的模型中心調整
+        material.uniforms.redAlpha.value = 0.5;
+
+        // 創建 mesh 並加到場景
+        var mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        // 動畫循環
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    });
+});
+
+camera.position.z = 100;
   </script>
 </body>
 </html>
