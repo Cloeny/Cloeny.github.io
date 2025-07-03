@@ -28,6 +28,10 @@
     dirLight.position.set(30, 30, 30);
     scene.add(dirLight);
 
+    const light = new THREE.PointLight(0xffff00, 2, 0); // 0xffff00 是黃色，2是強度，0表示無限距離
+    light.position.set(0, 0, 0); // 放在場景中心（和模型中心重合）
+    scene.add(light);
+
    // 紅色半透明紙張質感材質（漫反射，無高光）
     const material = new THREE.MeshLambertMaterial({
       color: 0xff0000,      // 紅色
@@ -49,9 +53,9 @@
       //lantern.localToWorld(center);
 
       //直接在模型中心加一個黃色點光源
-      const innerLight = new THREE.PointLight(0xffff99, 10, 500);
-      innerLight.position.copy(center);
-      scene.add(innerLight);
+      //const innerLight = new THREE.PointLight(0xffff99, 10, 500);
+      //innerLight.position.copy(center);
+      //scene.add(innerLight);
     });
   
     function animate() {
