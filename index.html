@@ -19,14 +19,17 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
   
-    const light = new THREE.PointLight(0xffffff, 1);
-    light.position.set(10, 10, 10);
+    // 外部偏黃主燈
+    const light = new THREE.PointLight(0xffe066, 1);
+    light.position.set(30, 30, 30);
     scene.add(light);
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    // 外部偏黃環境光
+    const ambient = new THREE.AmbientLight(0xfff2cc, 0.5);
     scene.add(ambient);
 
-     const material = new THREE.MeshPhongMaterial({
+    // 材質
+    const material = new THREE.MeshPhongMaterial({
     color: 0xff0000,      // 主色（紅色）
     specular: 0xffff00,   // 高光色（黃色）
     shininess: 100,       // 高光強度
@@ -41,17 +44,32 @@
       lantern.position.set(0, 0, 10);
       lantern.scale.set(0.1, 0.1, 0.1);
       scene.add(lantern);
+      // 自動計算模型中心
+      geometry.computeBoundingBox();
+      const center = new THREE.Vector3();
+      geometry.boundingBox.getCenter(center);
+
+      // 把中心點轉到世界座標
+      lantern.localToWorld(center);
+
+      // 在模型中心加一個黃色點光源
+      innerLight = new THREE.PointLight(0xffff99, 2, 50);
+      innerLight.position.copy(center);
+      scene.add(innerLight);
     });
   
     function animate() {
       requestAnimationFrame(animate);
       if (lantern) {
         lantern.rotation.y += 0.01;
-        if (lantern.position.z > 0) lantern.position.z -= 0.05;
-        if (lantern.scale.x < 1) {
-          lantern.scale.x += 0.01;
-          lantern.scale.y += 0.01;
-          lantern.scale.z += 0.01;
+        // 讓內部光源跟著模型一起轉
+        if (innerLight) {
+          // 重新計算中心
+          const center = new THREE.Vector3();
+          lantern.geometry.computeBoundingBox();
+          lantern.geometry.boundingBox.getCenter(center);
+          lantern.localToWorld(center);
+          innerLight.position.copy(center);
         }
       }
       renderer.render(scene, camera);
