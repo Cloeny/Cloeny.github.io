@@ -79,8 +79,9 @@
         let meshes = [];
 
         // 加載所有部件
-        parts.forEach((part, idx) => {
-           // 不要做 geometry.center()
+    parts.forEach((part, idx) => {
+            loader.load(part.file, function (geometry) {
+        // 不要做 geometry.center()
         const mesh = new THREE.Mesh(geometry, part.material);
         mesh.position.set(0, 0, 10);
         mesh.scale.set(0.1, 0.1, 0.1);
@@ -129,7 +130,7 @@
                 }
             });
         });
-
+        
         // 動畫循環
         function animate() {
             requestAnimationFrame(animate);
