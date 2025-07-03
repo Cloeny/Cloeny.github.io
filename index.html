@@ -80,17 +80,20 @@
 
         // 加載所有部件
         parts.forEach((part, idx) => {
-            loader.load(part.file, function (geometry) {
-                geometry.center();
-                const mesh = new THREE.Mesh(geometry, part.material);
-                mesh.position.set(0, 0, 10);
-                mesh.scale.set(0.1, 0.1, 0.1);
-                group.add(mesh);
-                meshes[idx] = mesh;
-                loadedCount++;
+           loader.load(part.file, function (geometry) {
+        // 只对zhezhou做center
+        if (part.isZhezhou) {
+            geometry.center();
+        }
+        const mesh = new THREE.Mesh(geometry, part.material);
+        mesh.position.set(0, 0, 10);
+        mesh.scale.set(0.1, 0.1, 0.1);
+        group.add(mesh);
+        meshes[idx] = mesh;
+        loadedCount++;
 
-              if (part.isZhezhou) {
-            // 發光球體
+        if (part.isZhezhou) {
+            // 发光球体
             const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
             const bulbMaterial = new THREE.MeshBasicMaterial({
                 color: 0xffff66,
@@ -101,11 +104,11 @@
             bulb.position.set(0, 0, 0); // 中心
             mesh.add(bulb);
 
-            // 黃光放到中心
+            // 黄光放到中心
             yellowLight.position.set(0, 0, 0);
             mesh.add(yellowLight);
 
-            // 光暈效果
+            // 光晕效果
             const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
             const spriteMaterial = new THREE.SpriteMaterial({
                 map: spriteMap,
