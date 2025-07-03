@@ -100,6 +100,7 @@ parts.forEach((part, idx) => {
         
 function animate() {
     requestAnimationFrame(animate);
+    lantern.rotation.y += 0.01;
     meshes.forEach(mesh => {
         if (mesh.position.z > 0) mesh.position.z -= 0.05;
         if (mesh.scale.x < 1) {
