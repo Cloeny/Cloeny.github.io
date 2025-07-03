@@ -89,13 +89,7 @@
         loadedCount++;
 
        if (part.isZhezhou) {
-    // 1. 先更新世界矩陣
-    mesh.updateMatrixWorld(true);
-    // 2. 获取zhezhou的世界坐标
-    const worldPos = new THREE.Vector3();
-    mesh.getWorldPosition(worldPos);
-
-    // 3. 發光球體
+    // 發光球體
     const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
     const bulbMaterial = new THREE.MeshBasicMaterial({
         color: 0xffff66,
@@ -103,14 +97,14 @@
         opacity: 0.7
     });
     const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-    bulb.position.copy(worldPos);
-    scene.add(bulb);
+    bulb.position.set(0, 0, 0);
+    mesh.add(bulb);
 
-    // 4. 黃光直接放到zhezhou的世界坐標
-    yellowLight.position.copy(worldPos);
-    scene.add(yellowLight);
+    // 黃光
+    yellowLight.position.set(0, 0, 0);
+    mesh.add(yellowLight);
 
-    // 5. 光暈效果
+    // 光暈
     const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
     const spriteMaterial = new THREE.SpriteMaterial({
         map: spriteMap,
@@ -121,8 +115,8 @@
     });
     const sprite = new THREE.Sprite(spriteMaterial);
     sprite.scale.set(16, 16, 1);
-    sprite.position.copy(worldPos);
-    scene.add(sprite);
+    sprite.position.set(0, 0, 0);
+    mesh.add(sprite);
                 }
             });
         });
