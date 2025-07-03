@@ -23,7 +23,7 @@
     const ambient = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambient);
 
-    // 可選：弱一點的白色平行光，模擬柔和外部照明
+    // 弱白色平行光，模擬柔和外部照明
     const dirLight = new THREE.DirectionalLight(0xffffff, 0.3);
     dirLight.position.set(30, 30, 30);
     scene.add(dirLight);
@@ -46,12 +46,11 @@
       geometry.computeBoundingBox();
       const center = new THREE.Vector3();
       geometry.boundingBox.getCenter(center);
-      lantern.localToWorld(center);
+      //lantern.localToWorld(center);
 
-      // 在模型中心加一個黃色點光源
-      innerLight = new THREE.PointLight(0xffff99, 10, 500);
-      //innerLight.position.copy(center);
-      innerLight.position.set(0, 0, 100); // 放到模型外面
+      //直接在模型中心加一個黃色點光源
+      const innerLight = new THREE.PointLight(0xffff99, 10, 500);
+      innerLight.position.copy(center);
       scene.add(innerLight);
     });
   
@@ -59,14 +58,6 @@
       requestAnimationFrame(animate);
       if (lantern) {
         lantern.rotation.y += 0.01;
-       // 讓內部光源跟著模型一起轉
-        if (innerLight) {
-          const center = new THREE.Vector3();
-          lantern.geometry.computeBoundingBox();
-          lantern.geometry.boundingBox.getCenter(center);
-          lantern.localToWorld(center);
-          innerLight.position.copy(center);
-        }
       }
       renderer.render(scene, camera);
     }
