@@ -47,7 +47,7 @@ function createCustomMaterial(shaderConfig) {
 
 // 加载STL模型
 function loadSTLModel(material) {
-    const loader = new THREE.STLLoader();
+    const loader = new STLLoader();
     
     loader.load(
         'model/FinalProject_zhezhou.stl',
