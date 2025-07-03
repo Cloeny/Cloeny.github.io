@@ -115,19 +115,6 @@ parts.forEach((part, idx) => {
     if (loadedCount === parts.length) {
         centerGroupToWorld();
     }
-
-      if (part.isZhezhou) {
-        // 發光球體
-        const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
-        const bulbMaterial = new THREE.MeshBasicMaterial({
-            color: 0xffff66,
-            transparent: true,
-            opacity: 0.7
-        });
-        const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-        bulb.position.set(0, 0, 0);
-        mesh.add(bulb);
-            }
         });
     });
 
