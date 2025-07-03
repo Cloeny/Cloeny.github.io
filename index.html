@@ -25,7 +25,6 @@
 
         // 黃色點光源（只影響zhezhou附近）
         const yellowLight = new THREE.PointLight(0xffff00, 20, 30); // 強度大，距離小
-        yellowLight.position.set(0, 0, 0);
 
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
@@ -82,28 +81,43 @@
         // 加載所有部件
         parts.forEach((part, idx) => {
             loader.load(part.file, function (geometry) {
+                geometry.center();
                 const mesh = new THREE.Mesh(geometry, part.material);
-                // 初始進場動畫設置
                 mesh.position.set(0, 0, 10);
                 mesh.scale.set(0.1, 0.1, 0.1);
                 group.add(mesh);
                 meshes[idx] = mesh;
                 loadedCount++;
 
-              // 如果是zhezhou，內部加一個發光球體
-                if (part.isZhezhou) {
-                    const bulbGeometry = new THREE.SphereGeometry(2, 32, 32);
-                    const bulbMaterial = new THREE.MeshBasicMaterial({
-                        color: 0xffff66,
-                        transparent: true,
-                        opacity: 0.8
-                    });
-                    const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-                    bulb.position.set(0, 0, 0);
-                    mesh.add(bulb); // 加到zhezhou內部
-                    // 黃光跟隨zhezhou
-                    yellowLight.position.set(0, 0, 0);
-                    mesh.add(yellowLight);
+              if (part.isZhezhou) {
+            // 發光球體
+            const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
+            const bulbMaterial = new THREE.MeshBasicMaterial({
+                color: 0xffff66,
+                transparent: true,
+                opacity: 0.7
+            });
+            const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
+            bulb.position.set(0, 0, 0); // 中心
+            mesh.add(bulb);
+
+            // 黃光放到中心
+            yellowLight.position.set(0, 0, 0);
+            mesh.add(yellowLight);
+
+            // 光暈效果
+            const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
+            const spriteMaterial = new THREE.SpriteMaterial({
+                map: spriteMap,
+                color: 0xffff66,
+                transparent: true,
+                opacity: 0.5,
+                depthWrite: false
+            });
+            const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.scale.set(16, 16, 1);
+            sprite.position.set(0, 0, 0);
+            mesh.add(sprite);
                 }
             });
         });
