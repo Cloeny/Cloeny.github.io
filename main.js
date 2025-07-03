@@ -97,25 +97,33 @@ let carMesh;
 const loader = new STLLoader();
 const modelParams = { x: 0, y: 0.5, z: 0, rotateY: 0, rotateX: 0, rotateZ: 0, rotating: false };
 
-loader.load('models/car.stl', function (geometry) {
+loader.load('model/FinalProject-zhezhou.stl', function (geometry) {
     geometry.computeBoundingBox();
     const size = geometry.boundingBox.getSize(new THREE.Vector3());
     const scaleFactor = 2 / Math.max(size.x, size.y, size.z);
     const center = geometry.boundingBox.getCenter(new THREE.Vector3());
 
-    const material = new THREE.MeshStandardMaterial({ 
-        color: 0x2194ce, 
-        metalness: 1,   
-        roughness: 0.1 
+    // ⭐ 用 ShaderFrogRuntime 加載 shader
+    var runtime = new window.ShaderFrogRuntime();
+    runtime.load(['shader/Shader_zhezhou.json'], function (shaders) {
+        var material = runtime.get(shaders[0].name);
+        material.transparent = true;
+
+        // 設置 uniforms（根據你的 shader 實際需要設置）
+        if (material.uniforms.color) material.uniforms.color.value = new THREE.Color(1.0, 0.1, 0.1); // 紅色
+        if (material.uniforms.glowColor) material.uniforms.glowColor.value = new THREE.Color(1.0, 0.8, 0.3); // 黃色
+        if (material.uniforms.glowStrength) material.uniforms.glowStrength.value = 0.5;
+        if (material.uniforms.bulbPos) material.uniforms.bulbPos.value = new THREE.Vector3(0, 0, 0); // 根據你的模型中心調整
+        if (material.uniforms.redAlpha) material.uniforms.redAlpha.value = 0.5;
+
+        carMesh = new THREE.Mesh(geometry, material);
+        carMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        carMesh.position.set(-center.x * scaleFactor, 0.5, -center.z * scaleFactor);
+        carMesh.castShadow = true;
+        scene.add(carMesh);
+
+        updateModelTransform();
     });
-
-    carMesh = new THREE.Mesh(geometry, material);
-    carMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-    carMesh.position.set(-center.x * scaleFactor, 0.5, -center.z * scaleFactor);
-    carMesh.castShadow = true;
-    scene.add(carMesh);
-
-    updateModelTransform();
 });
 
 // 5️⃣ 添加天空盒（灰色立方体模拟）
