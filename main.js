@@ -1,4 +1,3 @@
-import * as THREE from 'https://esm.sh/three@0.155.0';
 window.THREE = THREE; // ShaderFrog 运行时依赖
 
 import { STLLoader } from 'https://esm.sh/three@0.155.0/examples/jsm/loaders/STLLoader.js';
@@ -45,9 +44,9 @@ loader.load('model/FinalProject_zhezhou.stl', function (geometry) {
         var material = runtime.get(shaders[0].name);
         material.transparent = true;
 
-        // 推荐：设置 uniforms（根据你的 shader 需要）
-        if (material.uniforms.color) material.uniforms.color.value = new THREE.Color(1.0, 0.1, 0.1); // 红色
-        if (material.uniforms.glowColor) material.uniforms.glowColor.value = new THREE.Color(1.0, 0.8, 0.3); // 黄色
+        // uniforms 设置
+        if (material.uniforms.color) material.uniforms.color.value = new THREE.Color(1.0, 0.1, 0.1);
+        if (material.uniforms.glowColor) material.uniforms.glowColor.value = new THREE.Color(1.0, 0.8, 0.3);
         if (material.uniforms.glowStrength) material.uniforms.glowStrength.value = 0.5;
         if (material.uniforms.bulbPos) material.uniforms.bulbPos.value = new THREE.Vector3(0, 0, 0);
         if (material.uniforms.redAlpha) material.uniforms.redAlpha.value = 0.5;
