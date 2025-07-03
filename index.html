@@ -26,11 +26,11 @@
         scene.add(yellowLight); 
 
         // --- 立體光暈 ---
-        const glowGeometry = new THREE.SphereGeometry(6, 32, 32);
+        const glowGeometry = new THREE.SphereGeometry(4, 25, 25);
         const glowMaterial = new THREE.MeshBasicMaterial({
             color: 0xffff00,
             transparent: true,
-            opacity: 0.2
+            opacity: 0.5
         });
         const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
         glowMesh.position.copy(yellowLight.position);
