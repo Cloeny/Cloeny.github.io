@@ -33,7 +33,7 @@ let carMesh;
 const loader = new STLLoader();
 const modelParams = { x: 0, y: 0.5, z: 0, rotateY: 0, rotateX: 0, rotateZ: 0, rotating: false };
 
-loader.load('model/FinalProject - zhezhou.stl', function (geometry) {
+loader.load('model/FinalProject_zhezhou.stl', function (geometry) {
     geometry.computeBoundingBox();
     const size = geometry.boundingBox.getSize(new THREE.Vector3());
     const scaleFactor = 2 / Math.max(size.x, size.y, size.z);
