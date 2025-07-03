@@ -11,79 +11,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
 
-  <script>
-    const vertexShader = `
-precision highp float;
-precision highp int;
-
-uniform mat4 modelMatrix;
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 viewMatrix;
-uniform mat3 normalMatrix;
-
-uniform vec3 cameraPosition;
-uniform float time;
-
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec2 uv;
-attribute vec2 uv2;
-
-varying vec3 vPosition;
-varying vec3 vNormal;
-varying vec2 vUv;
-varying vec2 vUv2;
-
-void main() {
-    vNormal = normal;
-    vUv = uv;
-    vUv2 = uv2;
-    vPosition = position;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-}
-`;
-    const fragmentShader = `
-precision highp float;
-precision highp int;
-
-uniform mat4 modelMatrix;
-uniform vec3 color;         // 主色（紅色）
-uniform vec3 glowColor;     // 發光色（黃色）
-uniform float glowStrength; // 發光強度
-uniform vec3 bulbPos;       // 燈泡中心的世界座標
-uniform float redAlpha;     // 紅色部分的透明度（如0.5）
-
-varying vec3 vPosition;
-
-void main() {
-    vec3 worldPosition = (modelMatrix * vec4(vPosition, 1.0)).xyz;
-    float dist = length(worldPosition - bulbPos);
-
-    // 高斯漸變
-    float glow = exp(-pow(dist * glowStrength, 2.55));
-
-    // 設定一個閾值，中心區域直接用黃光
-    float threshold = 0.5; // 你可以根據效果調整這個值
-
-    vec3 lanternColor;
-    float alpha;
-
-    if (glow > threshold) {
-        lanternColor = glowColor;
-        alpha = 1.0;
-    } else {
-        // 在紅色和黃色之間平滑過渡
-        float t = glow / threshold; // 0~1
-        lanternColor = mix(color, glowColor, t);
-        alpha = mix(redAlpha, 1.0, t);
-    }
-
-    gl_FragColor = vec4(lanternColor, alpha);
-}
-`;
-
-    
+  <script>    
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 100;
@@ -91,15 +19,20 @@ void main() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
   
-    // 4. uniforms
-    const uniforms = {
-      color: { value: new THREE.Color(0xff0000) },        // 主色紅
-      glowColor: { value: new THREE.Color(0xffff00) },    // 發光色黃
-      glowStrength: { value: 2.0 },
-      bulbPos: { value: new THREE.Vector3(0, 0, 0) },
-      redAlpha: { value: 0.5 },
-      modelMatrix: { value: new THREE.Matrix4() }
-    };
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambient);
+
+     const material = new THREE.MeshPhongMaterial({
+    color: 0xff0000,      // 主色（紅色）
+    specular: 0xffff00,   // 高光色（黃色）
+    shininess: 100,       // 高光強度
+    transparent: true,
+    opacity: 0.8          // 透明度
+  });
   
     let lantern;
     const loader = new THREE.STLLoader();
