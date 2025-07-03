@@ -25,25 +25,16 @@
         yellowLight.position.set(0, 0, 0); 
         scene.add(yellowLight); 
 
-        // --- 光球 ---
-        const bulbGeometry = new THREE.SphereGeometry(2, 32, 32);
-        const bulbMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        const bulbMesh = new THREE.Mesh(bulbGeometry, bulbMaterial);
-        bulbMesh.position.copy(yellowLight.position);
-        scene.add(bulbMesh);
-
-        // --- 光暈 ---
-        const spriteMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/sprites/glow.png');
-        const spriteMaterial = new THREE.SpriteMaterial({ 
-            map: spriteMap, 
-            color: 0xffff00, 
-            transparent: true, 
-            opacity: 0.5 
+        // --- 立體光暈 ---
+        const glowGeometry = new THREE.SphereGeometry(6, 32, 32);
+        const glowMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffff00,
+            transparent: true,
+            opacity: 0.2
         });
-        const sprite = new THREE.Sprite(spriteMaterial);
-        sprite.scale.set(20, 20, 1); // 光暈大小可調
-        sprite.position.copy(yellowLight.position);
-        scene.add(sprite);
+        const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+        glowMesh.position.copy(yellowLight.position);
+        scene.add(glowMesh);
 
         const mat_zhezhou = new THREE.MeshLambertMaterial({
             color: 0xff0000,
