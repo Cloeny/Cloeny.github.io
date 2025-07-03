@@ -32,7 +32,7 @@
     const material = new THREE.MeshLambertMaterial({
       color: 0xff0000,      // 紅色
       transparent: true,
-      opacity: 0.7          // 半透明，可根據需要調整
+      opacity: 0.5          // 半透明，可根據需要調整
     });
   
     let lantern;
@@ -49,8 +49,9 @@
       lantern.localToWorld(center);
 
       // 在模型中心加一個黃色點光源
-      innerLight = new THREE.PointLight(0xffff99, 2, 50);
-      innerLight.position.copy(center);
+      innerLight = new THREE.PointLight(0xffff99, 10, 500);
+      //innerLight.position.copy(center);
+      innerLight.position.set(0, 0, 100); // 放到模型外面
       scene.add(innerLight);
     });
   
