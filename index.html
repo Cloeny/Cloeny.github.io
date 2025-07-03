@@ -24,9 +24,10 @@
         scene.add(ambient);
 
         // 黃色點光源
-        const light = new THREE.PointLight(0xffff00, 5, 100);
+        const light = new THREE.PointLight(0xffff00, 10, 400);
         light.position.set(0, 0, 0);
-        scene.add(light);
+        yellowLight.layers.set(1); 
+        scene.add(yellowLight);
 
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
@@ -61,12 +62,12 @@
 
         // 部件配置
         const parts = [
-            { file: 'model/FinalProject_zhezhou.stl', material: mat_zhezhou },
-            { file: 'model/FinalProject_diaosheng.stl', material: mat_diaosheng },
-            { file: 'model/FinalProject_liusu.stl', material: mat_liusu },
-            { file: 'model/FinalProject_yuanpan.stl', material: mat_yuanpan },
-            { file: 'model/FinalProject_zhuzi.stl', material: mat_zhuzi },
-            { file: 'model/FinalProject_zhuziUP.stl', material: mat_zhuziUP }
+             { file: 'model/FinalProject_zhezhou.stl', material: mat_zhezhou, layer: 1 },
+            { file: 'model/FinalProject_diaosheng.stl', material: mat_diaosheng, layer: 0 },
+            { file: 'model/FinalProject_liusu.stl', material: mat_liusu, layer: 0 },
+            { file: 'model/FinalProject_yuanpan.stl', material: mat_yuanpan, layer: 0 },
+            { file: 'model/FinalProject_zhuzi.stl', material: mat_zhuzi, layer: 0 },
+            { file: 'model/FinalProject_zhuziUP.stl', material: mat_zhuziUP, layer: 0 }
         ];
 
         // 用Group統一管理所有部件
@@ -87,9 +88,25 @@
                 // 初始進場動畫設置
                 mesh.position.set(0, 0, 10);
                 mesh.scale.set(0.1, 0.1, 0.1);
+                mesh.layers.set(part.layer); // 設置layer
                 group.add(mesh);
                 meshes[idx] = mesh;
                 loadedCount++;
+
+               // 如果是zhezhou，內部加一個發光球體
+                if (part.file.includes('zhezhou')) {
+                    const bulbGeometry = new THREE.SphereGeometry(2, 32, 32);
+                    const bulbMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xffff66,
+                        transparent: true,
+                        opacity: 0.8,
+                        emissive: 0xffff00
+                    });
+                    const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
+                    bulb.position.set(0, 0, 0);
+                    bulb.layers.set(1); // 只在layer 1
+                    mesh.add(bulb); // 加到zhezhou內部
+                }
             });
         });
 
@@ -107,6 +124,11 @@
                     }
                 });
             }
+            // 先渲染layer 0（所有部件）
+            camera.layers.set(0);
+            renderer.render(scene, camera);
+            // 再渲染layer 1（zhezhou和黃光、發光球體）
+            camera.layers.set(1);
             renderer.render(scene, camera);
         }
         animate();
