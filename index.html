@@ -28,20 +28,6 @@
         yellowLight.position.set(0, 0, 0); // <--- 這裡設置為世界中心
         scene.add(yellowLight); // 直接加到scene
 
-        // 光暈sprite（提前創建，後面直接用）
-        const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
-        const spriteMaterial = new THREE.SpriteMaterial({
-            map: spriteMap,
-            color: 0xffff66,
-            transparent: true,
-            opacity: 0.5,
-            depthWrite: false
-        });
-        const sprite = new THREE.Sprite(spriteMaterial);
-        sprite.scale.set(16, 16, 1);
-        sprite.position.set(0, 0, 0); // <--- 這裡設置為世界中心
-        scene.add(sprite); 
-
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
             color: 0xff0000,
