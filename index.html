@@ -25,7 +25,7 @@
   
     let lantern;
     const loader = new THREE.STLLoader();
-    loader.load('FinalProject.stl', function (geometry) {
+    loader.load('model/FinalProject.stl', function (geometry) {
       const material = new THREE.MeshPhongMaterial();  
       lantern = new THREE.Mesh(geometry, material);
       lantern.position.set(0, 0, 10);
