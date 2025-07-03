@@ -37,7 +37,6 @@
     let lantern;
     const loader = new THREE.STLLoader();
     loader.load('model/FinalProject.stl', function (geometry) {
-      const material = new THREE.MeshPhongMaterial();  
       lantern = new THREE.Mesh(geometry, material);
       lantern.position.set(0, 0, 10);
       lantern.scale.set(0.1, 0.1, 0.1);
