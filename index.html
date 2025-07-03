@@ -81,9 +81,9 @@
 
         // 加載所有部件
     parts.forEach((part, idx) => {
-        loader.load(part.file, function (geometry) {
+       loader.load(part.file, function (geometry) {
         const mesh = new THREE.Mesh(geometry, part.material);
-        mesh.position.set(0, 0, 10); // 這裡是所有部件的初始位置
+        mesh.position.set(0, 0, 10);
         mesh.scale.set(0.1, 0.1, 0.1);
         group.add(mesh);
         meshes[idx] = mesh;
@@ -98,13 +98,12 @@
                 opacity: 0.7
             });
             const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-            // 直接手動設置到你想要的中心位置
-            bulb.position.set(0, 0, 10);
-            scene.add(bulb);
+            bulb.position.set(0, 0, 0); // 注意：設為(0,0,0)，這是zhezhou本地中心
+            mesh.add(bulb);
 
-            // 黃光直接設置到你想要的位置
-            yellowLight.position.set(0, 0, 10);
-            scene.add(yellowLight);
+            // 黃光直接設置到zhezhou本地中心
+            yellowLight.position.set(0, 0, 0);
+            mesh.add(yellowLight);
 
             // 光暈效果
             const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
@@ -117,8 +116,8 @@
             });
             const sprite = new THREE.Sprite(spriteMaterial);
             sprite.scale.set(16, 16, 1);
-            sprite.position.set(0, 0, 10);
-            scene.add(sprite);
+            sprite.position.set(0, 0, 0); // 也是zhezhou本地中心
+            mesh.add(sprite);
                 }
             });
         });
