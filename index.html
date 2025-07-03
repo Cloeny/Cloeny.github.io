@@ -25,6 +25,26 @@
         yellowLight.position.set(0, 0, 0); 
         scene.add(yellowLight); 
 
+        // --- 光球 ---
+        const bulbGeometry = new THREE.SphereGeometry(2, 32, 32);
+        const bulbMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        const bulbMesh = new THREE.Mesh(bulbGeometry, bulbMaterial);
+        bulbMesh.position.copy(yellowLight.position);
+        scene.add(bulbMesh);
+
+        // --- 光暈 ---
+        const spriteMap = new THREE.TextureLoader().load('https://threejs.org/examples/textures/lensflare/lensflare0.png');
+        const spriteMaterial = new THREE.SpriteMaterial({ 
+            map: spriteMap, 
+            color: 0xffff00, 
+            transparent: true, 
+            opacity: 0.5 
+        });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.scale.set(12, 12, 1); // 光暈大小可調
+        sprite.position.copy(yellowLight.position);
+        scene.add(sprite);
+
         const mat_zhezhou = new THREE.MeshLambertMaterial({
             color: 0xff0000,
             transparent: true,
