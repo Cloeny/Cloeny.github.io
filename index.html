@@ -24,7 +24,8 @@
         scene.add(ambient);
 
         // 黃色點光源（只影響zhezhou附近）
-        const yellowLight = new THREE.PointLight(0xffff00, 20, 30); // 強度大，距離小
+        const yellowLight = new THREE.PointLight(0xffff00, 20, 30); 
+        yellowLight.position.set(0, 0, 10); // 強度大，距離小
 
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
@@ -80,25 +81,15 @@
 
         // 加載所有部件
     parts.forEach((part, idx) => {
-            loader.load(part.file, function (geometry) {
-        // 不要做 geometry.center()
+        loader.load(part.file, function (geometry) {
         const mesh = new THREE.Mesh(geometry, part.material);
-        mesh.position.set(0, 0, 10);
+        mesh.position.set(0, 0, 10); // 這裡是所有部件的初始位置
         mesh.scale.set(0.1, 0.1, 0.1);
         group.add(mesh);
         meshes[idx] = mesh;
         loadedCount++;
 
         if (part.isZhezhou) {
-            // 計算zhezhou的幾何中心（本地坐標）
-            geometry.computeBoundingBox();
-            const center = new THREE.Vector3();
-            geometry.boundingBox.getCenter(center);
-
-            // 轉換到世界坐標
-            mesh.updateMatrixWorld(true);
-            const worldCenter = center.clone().applyMatrix4(mesh.matrixWorld);
-
             // 發光球體
             const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
             const bulbMaterial = new THREE.MeshBasicMaterial({
@@ -107,11 +98,12 @@
                 opacity: 0.7
             });
             const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-            bulb.position.copy(worldCenter);
+            // 直接手動設置到你想要的中心位置
+            bulb.position.set(0, 0, 10);
             scene.add(bulb);
 
-            // 黃光放到中心
-            yellowLight.position.copy(worldCenter);
+            // 黃光直接設置到你想要的位置
+            yellowLight.position.set(0, 0, 10);
             scene.add(yellowLight);
 
             // 光暈效果
@@ -125,7 +117,7 @@
             });
             const sprite = new THREE.Sprite(spriteMaterial);
             sprite.scale.set(16, 16, 1);
-            sprite.position.copy(worldCenter);
+            sprite.position.set(0, 0, 10);
             scene.add(sprite);
                 }
             });
