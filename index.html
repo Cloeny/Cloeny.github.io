@@ -25,7 +25,6 @@
 
         // 黃色點光源（只影響zhezhou附近）
         const yellowLight = new THREE.PointLight(0xffff00, 20, 30); 
-        yellowLight.position.set(0, 0, 10); // 強度大，距離小
 
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
@@ -89,35 +88,41 @@
         meshes[idx] = mesh;
         loadedCount++;
 
-        if (part.isZhezhou) {
-            // 發光球體
-            const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
-            const bulbMaterial = new THREE.MeshBasicMaterial({
-                color: 0xffff66,
-                transparent: true,
-                opacity: 0.7
-            });
-            const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-            bulb.position.set(0, 0, 0); // 注意：設為(0,0,0)，這是zhezhou本地中心
-            mesh.add(bulb);
+       if (part.isZhezhou) {
+    // 1. 先更新世界矩陣
+    mesh.updateMatrixWorld(true);
+    // 2. 获取zhezhou的世界坐标
+    const worldPos = new THREE.Vector3();
+    mesh.getWorldPosition(worldPos);
 
-            // 黃光直接設置到zhezhou本地中心
-            yellowLight.position.set(0, 0, 0);
-            mesh.add(yellowLight);
+    // 3. 發光球體
+    const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
+    const bulbMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffff66,
+        transparent: true,
+        opacity: 0.7
+    });
+    const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
+    bulb.position.copy(worldPos);
+    scene.add(bulb);
 
-            // 光暈效果
-            const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
-            const spriteMaterial = new THREE.SpriteMaterial({
-                map: spriteMap,
-                color: 0xffff66,
-                transparent: true,
-                opacity: 0.5,
-                depthWrite: false
-            });
-            const sprite = new THREE.Sprite(spriteMaterial);
-            sprite.scale.set(16, 16, 1);
-            sprite.position.set(0, 0, 0); // 也是zhezhou本地中心
-            mesh.add(sprite);
+    // 4. 黃光直接放到zhezhou的世界坐標
+    yellowLight.position.copy(worldPos);
+    scene.add(yellowLight);
+
+    // 5. 光暈效果
+    const spriteMap = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@master/examples/textures/lensflare/lensflare0.png');
+    const spriteMaterial = new THREE.SpriteMaterial({
+        map: spriteMap,
+        color: 0xffff66,
+        transparent: true,
+        opacity: 0.5,
+        depthWrite: false
+    });
+    const sprite = new THREE.Sprite(spriteMaterial);
+    sprite.scale.set(16, 16, 1);
+    sprite.position.copy(worldPos);
+    scene.add(sprite);
                 }
             });
         });
