@@ -1,99 +1,15 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Chinese Paper Lanterns Project</title>
-<style>
-body {
-margin: 0;
-font-family: "Microsoft YaHei", Arial, sans-serif;
-background: #181818;
-color: #fff;
-}
-h1 {
-text-align: center;
-margin-top: 20px;
-font-size: 2em;
-letter-spacing: 2px;
-}
-#container {
-width: 80vw;
-height: 60vh;
-margin: 30px auto 20px auto;
-background: #222;
-border-radius: 12px;
-box-shadow: 0 4px 24px #0008;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-.download-links {
-text-align: center;
-margin-bottom: 20px;
-}
-.download-links a {
-color: #ffd700;
-margin: 0 10px;
-text-decoration: none;
-font-weight: bold;
-}
-.download-links a:hover {
-text-decoration: underline;
-}
-.video-section {
-display: flex;
-justify-content: center;
-margin-bottom: 30px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Chinese Paper Lanterns Project</title>
 </head>
-<body>
-<h1>Chinese Paper Lanterns Project</h1>
-<div id="container"></div>
-<div class="download-links">
-<a href="FinalProject.stl" download>下載模型</a> |
-<a href="your-shader-code.glsl" download>下載著色器</a> |
-<a href="presentation.pdf" download>下載演示文稿</a>
-</div>
-<div class="video-section">
-<video src="video/screengrab.mp4" controls width="600"></video>
-</div>
-<!-- 如果 shaderfrog-runtime.min.js 不是 ES Module，保留這一行 -->
-<script src="js/shaderfrog-runtime.min.js"></script>
-<script type="module">
-import * as THREE from 'https://unpkg.com/three@0.150.0/build/three.module.js';
-import { STLLoader } from 'https://unpkg.com/three@0.150.0/examples/jsm/loaders/STLLoader.js';
-// 初始化場景、攝像機、渲染器
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('container').appendChild(renderer.domElement);
-// 加載 STL 模型
-const loader = new STLLoader();
-loader.load('model/FinalProject-zhezhou.stl', function (geometry) {
-// ShaderFrogRuntime 如果不是 ES Module，這裡用 window.ShaderFrogRuntime
-var runtime = new window.ShaderFrogRuntime();
-runtime.load(['shader/Shader_zhezhou.json'], function (shaders) {
-var material = runtime.get(shaders[0].name);
-material.transparent = true; // 啟用透明
-// 設置 shader 的 uniforms（根據你的 shader 實際需要設置）
-material.uniforms.color.value = new THREE.Color(1.0, 0.1, 0.1); // 紅色
-material.uniforms.glowColor.value = new THREE.Color(1.0, 0.8, 0.3); // 黃色
-material.uniforms.glowStrength.value = 0.5;
-material.uniforms.bulbPos.value = new THREE.Vector3(0, 0, 0); // 根據你的模型中心調整
-material.uniforms.redAlpha.value = 0.5;
-// 創建 mesh 並加到場景
-var mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-// 動畫循環
-function animate() {
-requestAnimationFrame(animate);
-renderer.render(scene, camera);
-}
-animate();
-});
-});
-camera.position.z = 100;
-</script>
+<body style="background:#181818;color:#fff;">
+  <h1 style="text-align:center;">Chinese Paper Lanterns Project</h1>
+  <div id="container" style="width:80vw;height:60vh;margin:30px auto 20px auto;background:#222;border-radius:12px;box-shadow:0 4px 24px #0008;display:flex;align-items:center;justify-content:center;"></div>
+  <!-- 這裡只需要一行，入口是 main.js -->
+  <script type="module" src="main.js"></script>
+  <!-- 如果 ShaderFrogRuntime 不是 ES Module，這裡加一行 -->
+  <script src="js/shaderfrog-runtime.min.js"></script>
 </body>
 </html>
