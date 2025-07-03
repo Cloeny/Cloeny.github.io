@@ -94,15 +94,27 @@
         let loadedCount = 0;
         let meshes = [];
 
+function centerGroupToWorld() {
+    // 計算 group 的包圍盒
+    const box = new THREE.Box3().setFromObject(group);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+    // 將 group 的 position 設為 -center，讓其中心對齊世界中心
+    group.position.sub(center);
+}
+
         // 加載所有部件
-    parts.forEach((part, idx) => {
-       loader.load(part.file, function (geometry) {
-        const mesh = new THREE.Mesh(geometry, part.material);
-        mesh.position.set(0, 0, 10);
-        mesh.scale.set(0.1, 0.1, 0.1);
-        group.add(mesh);
-        meshes[idx] = mesh;
-        loadedCount++;
+parts.forEach((part, idx) => {
+    loader.load(part.file, function (geometry) {
+    const mesh = new THREE.Mesh(geometry, part.material);
+    mesh.position.set(0, 0, 10); // 保持原有組裝關係
+    mesh.scale.set(0.1, 0.1, 0.1);
+    group.add(mesh);
+    meshes[idx] = mesh;
+    loadedCount++;
+    if (loadedCount === parts.length) {
+        centerGroupToWorld();
+    }
 
       if (part.isZhezhou) {
         // 發光球體
@@ -115,9 +127,11 @@
         const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
         bulb.position.set(0, 0, 0);
         mesh.add(bulb);
-                }
-            });
+            }
         });
+    });
+
+
         
 function animate() {
     requestAnimationFrame(animate);
