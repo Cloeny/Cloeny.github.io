@@ -25,6 +25,7 @@
 
         // 黃色點光源（只影響zhezhou附近）
         const yellowLight = new THREE.PointLight(0xffff00, 20, 30); 
+        yellowLight.position.set(0, 0, 0); // <--- 這裡設置為世界中心
         scene.add(yellowLight); // 直接加到scene
 
         // 光暈sprite（提前創建，後面直接用）
@@ -35,10 +36,11 @@
             transparent: true,
             opacity: 0.5,
             depthWrite: false
-});
-const sprite = new THREE.Sprite(spriteMaterial);
-sprite.scale.set(16, 16, 1);
-scene.add(sprite); 
+        });
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.scale.set(16, 16, 1);
+        sprite.position.set(0, 0, 0); // <--- 這裡設置為世界中心
+        scene.add(sprite); 
 
         // 材質設置
         const mat_zhezhou = new THREE.MeshLambertMaterial({
@@ -103,45 +105,36 @@ scene.add(sprite);
         loadedCount++;
 
       if (part.isZhezhou) {
-    // 發光球體
-    const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
-    const bulbMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffff66,
-        transparent: true,
-        opacity: 0.7
-    });
-    const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
-    bulb.position.set(0, 0, 0);
-    mesh.add(bulb);
+        // 發光球體
+        const bulbGeometry = new THREE.SphereGeometry(4, 32, 32);
+        const bulbMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffff66,
+            transparent: true,
+            opacity: 0.7
+        });
+        const bulb = new THREE.Mesh(bulbGeometry, bulbMaterial);
+        bulb.position.set(0, 0, 0);
+        mesh.add(bulb);
                 }
             });
         });
         
-        // 動畫循環
-        function animate() {
-            requestAnimationFrame(animate);
-            if (loadedCount === parts.length) {
-                group.rotation.y += 0.01;
-                meshes.forEach(mesh => {
-                    if (mesh.position.z > 0) mesh.position.z -= 0.05;
-                    if (mesh.scale.x < 1) {
-                        mesh.scale.x += 0.01;
-                        mesh.scale.y += 0.01;
-                        mesh.scale.z += 0.01;
-                    }
-                });
-            // 讓黃光和光暈跟隨 zhezhou
-        const zhezhouMesh = meshes.find((m, i) => parts[i].isZhezhou);
-        if (zhezhouMesh) {
-            zhezhouMesh.updateMatrixWorld();
-            const worldPos = new THREE.Vector3();
-            zhezhouMesh.getWorldPosition(worldPos);
-            yellowLight.position.copy(worldPos);
-            sprite.position.copy(worldPos);
-        }
+function animate() {
+    requestAnimationFrame(animate);
+    if (loadedCount === parts.length) {
+        group.rotation.y += 0.01;
+        meshes.forEach(mesh => {
+            if (mesh.position.z > 0) mesh.position.z -= 0.05;
+            if (mesh.scale.x < 1) {
+                mesh.scale.x += 0.01;
+                mesh.scale.y += 0.01;
+                mesh.scale.z += 0.01;
             }
-            renderer.render(scene, camera);
-        }
+        });
+        // ***這裡不再有黃光和光暈跟隨的代碼***
+    }
+    renderer.render(scene, camera);
+}
         animate();
 
         // 響應式
