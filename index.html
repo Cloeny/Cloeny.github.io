@@ -80,13 +80,6 @@
         
         let loadedCount = 0;
         let meshes = [];
-
-    function centerGroupToWorld() {
-    const box = new THREE.Box3().setFromObject(group);
-    const center = new THREE.Vector3();
-    box.getCenter(center);
-    
-    group.position.sub(center);
 }
 
         
@@ -108,25 +101,22 @@ parts.forEach((part, idx) => {
         
 function animate() {
     requestAnimationFrame(animate);
-    if (loadedCount === parts.length) {
-        group.rotation.y += 0.01;
-        meshes.forEach(mesh => {
-            if (mesh.position.z > 0) mesh.position.z -= 0.05;
-            if (mesh.scale.x < 1) {
-                mesh.scale.x += 0.01;
-                mesh.scale.y += 0.01;
-                mesh.scale.z += 0.01;
-            }
-        });
-    }
-    renderer.render(scene, camera);
+    meshes.forEach(mesh => {
+        if (mesh.position.z > 0) mesh.position.z -= 0.05;
+        if (mesh.scale.x < 1) {
+            mesh.scale.x += 0.01;
+            mesh.scale.y += 0.01;
+            mesh.scale.z += 0.01;
+        }
+    });
+   renderer.render(scene, camera);
 }
-        animate();
+animate();
         
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
 </body>
