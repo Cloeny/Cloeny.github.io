@@ -5,13 +5,15 @@
     <title>Chinese Paper Lanterns Project</title>
     <!-- 1. 先引入 THREE（非module版本，确保全局有 window.THREE） -->
     <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
-    <!-- 2. 再引入 ShaderFrogRuntime（依赖 window.THREE） -->
+    <!-- 2. 引入STL加载器 -->
+    <script src="https://unpkg.com/three@0.155.0/examples/js/loaders/STLLoader.js"></script>
+    <!-- 3. 再引入 ShaderFrogRuntime（依赖 window.THREE） -->
     <script src="js/shaderfrog-runtime.min.js"></script>
 </head>
 <body style="background:#181818;color:#fff;">
     <h1 style="text-align:center;">Chinese Paper Lanterns Project</h1>
     <div id="container" style="width:80vw;height:60vh;margin:30px auto 20px auto;background:#222;border-radius:12px;box-shadow:0 4px 24px #0008;display:flex;align-items:center;justify-content:center;"></div>
-    <!-- 3. 你的主逻辑用 type="module"（但不要再 import * as THREE） -->
-    <script type="module" src="main.js"></script>
+    <!-- 4. 你的主逻辑 -->
+    <script src="main.js"></script>
 </body>
 </html>
