@@ -40,7 +40,7 @@
     loader.load('model/FinalProject.stl', function (geometry) {
       lantern = new THREE.Mesh(geometry, material);
         // 立起來
-      lantern.rotation.x = -Math.PI / 2;
+      //lantern.rotation.x = -Math.PI / 2;
       scene.add(lantern);
       // 自動計算模型中心
       geometry.computeBoundingBox();
