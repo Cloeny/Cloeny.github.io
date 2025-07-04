@@ -15,13 +15,3 @@
 -  Screengrab Video 
   [video.mp4](https://github.com/Cloeny/Cloeny.github.io/blob/main/Video/video.mp4)
 
----
-
-## 3. Division of Labor
-| Name      | Responsibility                        | Workload (%) |
-|-----------|---------------------------------------|--------------|
-| Lily      | THREE.js about Animation              | *%          |
-| Vichy     | OpenSCAD modeling, STL export         | *%          |
-| Cloeny    | Shader writing, material design       | *%          |
-| Cloney    | Documentation, demo video             | *%           |
-| All Team  | Project report, PPT & PDF             | *%           |
