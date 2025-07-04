@@ -6,13 +6,13 @@
 
 ## 2. Other links
 
-- ** Models **  
+-  Models   
   [Modeling](https://github.com/Cloeny/Cloeny.github.io/tree/main/model)
 
-- **Shader code & animation（THREE.js）**  
+- Shader code & animation（THREE.js）
   [Shader and animation code)](https://github.com/Cloeny/Cloeny.github.io/blob/main/index.html)
 
-- ** Screengrab Video **  
+-  Screengrab Video 
   [video.mp4](https://github.com/Cloeny/Cloeny.github.io/blob/main/Video/video.mp4)
 
 ---
