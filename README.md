@@ -1,4 +1,4 @@
-# Lantern Multi-Part Project
+# Chinese paper lanterns-Final Project
 
 ## 1. Project Link
 
