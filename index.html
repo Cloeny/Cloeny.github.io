@@ -106,9 +106,11 @@ parts.forEach((part, idx) => {
    //}
         });
     });
+// 圆周运动参数
+const radius = 150；// 圆周半径
+let angle = 0;   //当前角度
+const speed = 0.01;// 旋转速度
 
-
-        
 function animate() {
     requestAnimationFrame(animate);
     group.rotation.y += 0.01;
@@ -120,6 +122,16 @@ function animate() {
             mesh.scale.z += 0.01;
         }
     });
+    //更新角度
+    angle += speed；
+    //相机新位置
+    camer.position.x = radius * Math.cos(angle);
+    camer.position.z = radius * Math.sin(angle);
+
+    camera.lookAt((0,0,10));
+
+
+    
    renderer.render(scene, camera);
 }
 animate();
