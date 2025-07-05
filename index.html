@@ -25,6 +25,7 @@
         scene.add(ambient);
 
 
+
         const mat_zhezhou = new THREE.MeshLambertMaterial({
             color: 0xff0000,
             transparent: true,
@@ -32,34 +33,34 @@
         });
         const mat_diaosheng = new THREE.MeshLambertMaterial({
             color: 0x4b2e0f,
-            transparent: false,
+            transparent: false
         });
-        const mat_liusuxian = new THREE.MeshLambertMaterial({
-            color: 0x4b2e0f,
-            transparent: false,
-        });
-        const mat_liusuxian = new THREE.MeshPhongMaterial({
+        const mat_liusu = new THREE.MeshPhongMaterial({
             color: 0xffd700,
             shininess: 100,
-            shininess: 0xffffff
+            specular: 0xffffff
+        });
+        const mat_yuanpan = new THREE.MeshStandardMaterial({
+            color: 0x222222,
+            roughness: 0.6,
+            metalness: 0.3
         });
         const mat_zhuzi = new THREE.MeshPhongMaterial({
             color: 0x8b0000,
             shininess: 80,
-            shininess: 0xffcccc
+            specular: 0xffcccc
         });
         const mat_zhuziUP = new THREE.MeshPhongMaterial({
             color: 0x8b0000,
             shininess: 80,
-            shininess: 0xffcccc
+            specular: 0xffcccc
         });
-        const mat_zhuziUP = new THREE.MeshStandardMaterial({
-            color: 0x222222,
-            shininess: 100,
-            shininess: 0xffffff
+        const mat_liusuxian = new THREE.MeshLambertMaterial({
+            color: 0x4b2e0f,
+            transparent: false
         });
-        
 
+        // 零件配置
         const parts = [
             { file: 'model/FinalProject_zhezhou.stl', material: mat_zhezhou, isZhezhou: true },
             { file: 'model/FinalProject_diaosheng.stl', material: mat_diaosheng },
@@ -69,24 +70,7 @@
             { file: 'model/FinalProject_zhuziUP.stl', material: mat_zhuziUP },
             { file: 'model/FinalProject_liusuxian.stl', material: mat_liusuxian }
         ];
-
-
         
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
         const group = new THREE.Group();
         scene.add(group);
 
