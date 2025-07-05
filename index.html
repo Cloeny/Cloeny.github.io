@@ -21,7 +21,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-
+        // 環境光與點光源
         const ambient = new THREE.AmbientLight(0xffffff, 0.8);
         scene.add(ambient);
 
@@ -29,16 +29,18 @@
         yellowLight.position.set(0, 0, 0);
         scene.add(yellowLight);
 
+        // 立體光暈
         const glowGeometry = new THREE.SphereGeometry(4, 25, 25);
         const glowMaterial = new THREE.MeshBasicMaterial({
             color: 0xffff00,
-            transparent: ture,
+            transparent: true,
             opacity: 0.5
         });
         const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
         glowMesh.position.copy(yellowLight.position);
         scene.add(glowMesh);
-        
+
+        // 材質
         const mat_zhezhou = new THREE.MeshLambertMaterial({
             color: 0xff0000,
             transparent: true,
