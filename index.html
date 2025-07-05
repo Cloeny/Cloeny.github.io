@@ -21,18 +21,55 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        cost ambient = new THREE.AmbientLight(0xffffff,0.8);
-            scence.add(ambient);
+       const ambient = new THREE.AmbientLight(0xffffff, 0.8);
+        scene.add(ambient);
 
-            const mat_zhechou = new THREE.MeshLambertMaterial({
-                color: 0xff0000,
-                tansparent: ture,
-                opacity: 0.6,
-            });
 
-        const part = [
-            { file: 'model/FinalProject_zhezhou.stl', material: mat_zhechou, isZhezhou: ture},
+        const mat_zhezhou = new THREE.MeshLambertMaterial({
+            color: 0xff0000,
+            transparent: true,
+            opacity: 0.6
+        });
+        const mat_diaosheng = new THREE.MeshLambertMaterial({
+            color: 0x4b2e0f,
+            transparent: false,
+        });
+        const mat_liusuxian = new THREE.MeshLambertMaterial({
+            color: 0x4b2e0f,
+            transparent: false,
+        });
+        const mat_liusuxian = new THREE.MeshPhongMaterial({
+            color: 0xffd700,
+            shininess: 100,
+            shininess: 0xffffff
+        });
+        const mat_zhuzi = new THREE.MeshPhongMaterial({
+            color: 0x8b0000,
+            shininess: 80,
+            shininess: 0xffcccc
+        });
+        const mat_zhuziUP = new THREE.MeshPhongMaterial({
+            color: 0x8b0000,
+            shininess: 80,
+            shininess: 0xffcccc
+        });
+        const mat_zhuziUP = new THREE.MeshStandardMaterial({
+            color: 0x222222,
+            shininess: 100,
+            shininess: 0xffffff
+        });
+        
+
+        const parts = [
+            { file: 'model/FinalProject_zhezhou.stl', material: mat_zhezhou, isZhezhou: true },
+            { file: 'model/FinalProject_diaosheng.stl', material: mat_diaosheng },
+            { file: 'model/FinalProject_liusu.stl', material: mat_liusu },
+            { file: 'model/FinalProject_yuanpan.stl', material: mat_yuanpan },
+            { file: 'model/FinalProject_zhuzi.stl', material: mat_zhuzi },
+            { file: 'model/FinalProject_zhuziUP.stl', material: mat_zhuziUP },
+            { file: 'model/FinalProject_liusuxian.stl', material: mat_liusuxian }
         ];
+
 
         
 
