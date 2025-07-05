@@ -106,6 +106,33 @@
             });
         });
 
+        const radius = 150; // 圆周半径
+        let angle = 0;   //当前角度
+        const speed = 0.01;// 旋转速度
+
+        function animate() {
+            requestAnimationFrame(animate);
+            group.rotation.y += 0.01;
+            meshes.forEach(mesh => {
+                if (!mesh) return;
+                if (mesh.position.z > 0) mesh.position.z -= 0.05;
+                if (mesh.scale.x < 1) {
+                    mesh.scale.x += 0.01;
+                    mesh.scale.y += 0.01;
+                    mesh.scale.z += 0.01;
+                }
+            });
+            //更新角度
+            angle += speed;
+            //相机新位置
+            camera.position.x = radius * Math.cos(angle);
+            camera.position.z = radius * Math.sin(angle);
+        
+            camera.lookAt(new THREE.Vector3(0, 0, 10));
+
+            renderer.render(scene, camera);
+        }
+                
         // 動畫循環
         function animate() {
             requestAnimationFrame(animate);
