@@ -45,8 +45,13 @@
         glowMesh.position.copy(yellowLight.position);
         scene.add(glowMesh);
 
+        // 1. 加載貼圖
+        const textureLoader = new THREE.TextureLoader();
+        const zhezhouTexture = textureLoader.load('model/zhezhou_texture.png');
+
         // 材質
         const mat_zhezhou = new THREE.MeshLambertMaterial({
+            map: zhezhouTexture,
             color: 0xff0000,
             transparent: true,
             opacity: 0.6
