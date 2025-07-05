@@ -21,13 +21,18 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // 環境光與點光源
+
         const ambient = new THREE.AmbientLight(0xffffff, 0.8);
         scene.add(ambient);
 
-       
+        const yellowLight = new THREE.PointLight(0xffff00, 20, 30);
+        yellowLight.position.set(0, 0, 0);
+        scene.add(yellowLight);
 
-        // 材質
+
+
+
+        
         const mat_zhezhou = new THREE.MeshLambertMaterial({
             color: 0xff0000,
             transparent: true,
