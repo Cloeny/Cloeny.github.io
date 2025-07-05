@@ -21,21 +21,33 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        cost ambient = new THREE.AmbientLight(0xffffff,0.8);
+            scence.add(ambient);
 
-        const ambient = new THREE.AmbientLight(0xffffff, 0.8);
-        scene.add(ambient);
+            const mat_zhechou = new THREE.MeshLambertMaterial({
+                color: 0xff0000,
+                tansparent: ture,
+                opacity: 0.6,
+            });
 
-
-        const mat_zhezhou = new THREE.MeshLambertMaterial({
-            color: 0xff0000,
-            transparent: true,
-            opacity: 0.6
-        });
-
-
-        const parts = [
-            { file: 'model/FinalProject_zhezhou.stl', material: mat_zhezhou, isZhezhou: true },
+        const part = [
+            { file: 'model/FinalProject_zhezhou.stl', material: mat_zhechou, isZhezhou: ture},
         ];
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
 
         const group = new THREE.Group();
