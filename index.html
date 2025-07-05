@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <title>Lantern Multi-Part</title>
     <style>
-        body { margin: 0; overflow: hidden; }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(180deg, #222244 0%, #000000 100%);
+        }
     </style>
 </head>
 <body>
@@ -13,6 +17,10 @@
     <!-- STL 加載器 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
     <script>
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        
         // 場景、相機、渲染器
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
